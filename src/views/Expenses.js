@@ -5,6 +5,11 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+
+
 const App = () => {
    const [rowData] = useState([
        {name: "Toyota", description: "Celica", amount: 35000,tags:""},
@@ -26,9 +31,16 @@ const App = () => {
                columnDefs={columnDefs}>
            </AgGridReact>
        </div>
+     
+       
    );
 };
+export default function BasicDateCalendar() {
+    return (
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateCalendar />
+      </LocalizationProvider>
+    );
+  }
 
 
-
-export default App;
