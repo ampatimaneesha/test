@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
 const projectSchema= new mongoose.Schema({
-    firstName:String,
-    lastName:String,
+    name:String,
     email: String,
-    password:String
+    password:String,
+    profilepicture: String,
+
    
 });
 
