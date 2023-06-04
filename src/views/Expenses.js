@@ -57,9 +57,9 @@ const App = () => {
 
     return (
         <div className="ag-theme-alpine" style={{ height: 500, padding: 20 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar />
-            </LocalizationProvider>
+            </LocalizationProvider> */}
             <Button onClick={()=> { setRowData([...rowData, {name: 'default'}])}}> Add row</Button>
             <AgGridReact
             fullWidth={true}
