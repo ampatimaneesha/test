@@ -49,7 +49,7 @@ function App() {
     console.log(resp.data);
     window.localStorage.setItem('token', resp.data.token)
    
-    window.location.href=`http://localhost:3000/User`
+    window.location.href=`http://localhost:3000/Expenses`
     
   }
   catch(e){
