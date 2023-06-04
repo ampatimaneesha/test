@@ -8,7 +8,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-// import backgroundImage from "../images/medical.jpg";
+ import backgroundImage from "../images/expense1.jpg";
 import { blue } from "@mui/material/colors";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -18,7 +18,7 @@ import { setRef } from "@mui/material";
 import axios from 'axios';
 
 const styles = {
-  // backgroundImage: `url(${backgroundImage})`,
+  backgroundImage: `url(${backgroundImage})`,
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   height: "100vh",
@@ -35,8 +35,7 @@ const styles = {
 
 function App() {
   // const [type, setType] = React.useState("");
-  const [firstname, setFirstname] = React.useState("");
-  const [lastname, setLastname] = React.useState("");
+  const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [password1, setPassword1] = React.useState("");
@@ -48,8 +47,7 @@ function App() {
       method: 'post',
       url: 'http://localhost:5001/users',
       data: {
-        firstName: firstname,
-        lastName: lastname,
+       name:name,
         email:email,
         password:password,
         // password1:password1
@@ -66,12 +64,10 @@ function App() {
       //   setType(event.target.value);
       //   break;
       //
-      case "firstname":
-        setFirstname(event.target.value);
+      case "name":
+        setName(event.target.value);
         break;
-      case "lastname":
-        setLastname(event.target.value);
-        break;
+     
       case "email":
         setEmail(event.target.value);
         break;
@@ -117,30 +113,19 @@ function App() {
                   </Typography>
                   <form>
                     <Grid container spacing={2}>
-                      <Grid xs={12} sm={6} item>
+                      <Grid xs={12}  item>
                         <TextField
-                          name="firstname"
-                          value={firstname}
-                          label="First Name"
-                          placeholder="Enter first name"
+                          name="name"
+                          value={name}
+                          label=" Name"
+                          placeholder="Enter  name"
                           variant="outlined"
                           fullWidth
                           required
                           onChange={handleChange}
                         />
                       </Grid>
-                      <Grid xs={12} sm={6} item>
-                        <TextField
-                          name="lastname"
-                          value={lastname}
-                          label="Last Name"
-                          placeholder="Enter last name"
-                          variant="outlined"
-                          fullWidth
-                          required
-                          onChange={handleChange}
-                        />
-                      </Grid>
+                      
                       <Grid xs={12} item>
                         <TextField
                           name="email"

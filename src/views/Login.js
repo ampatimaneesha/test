@@ -8,11 +8,11 @@ import React from "react";
 // import "./App.css";
 import { blue } from '@mui/material/colors';
 import { Container } from "@mui/system";
-// import backgroundImage from '../images/medical.jpg';
+ import backgroundImage from '../images/expense1.jpg';
 import axios from 'axios';
 
 const styles = {
-  // backgroundImage: `url(${backgroundImage})`,
+   backgroundImage: `url(${backgroundImage})`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
   height: '100vh',
