@@ -1,13 +1,15 @@
 import  express  from "express";
-import {getUsers,createUser, loginUser} from "../controllers/users.js";
+import {getExpenses,getExpense, createExpense, updateExpense,deleteExpense} from "../controllers/expenses.js";
 
 
 const router = express.Router();
 
-router.get("/expense",getUsers);
-router.post("/expense",createUser);
-router.patch("/expense",loginUser);
-router.delete("/expense/:id",loginUser);
+router.get("/",getExpenses);
+
+router.get("/:id",getExpense);
+router.post("/",createExpense);
+router.patch("/:id",updateExpense);
+router.delete("/:id",deleteExpense);
 
 
 export default router;
