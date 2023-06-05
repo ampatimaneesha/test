@@ -34,17 +34,8 @@ export default function MenuAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
         <Grid
-      justify="space-between" // Add it here :)
+      justify="space-between"
       container 
       spacing={24}
     >
