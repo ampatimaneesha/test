@@ -1,14 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef} from 'react';
 import { AgGridReact } from 'ag-grid-react';
-
+import {CSVLink, CSVDownload} from 'react-csv';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import axios from "axios";
 import { Button } from '@mui/base';
-import { GridApi } from 'ag-grid-community';
 
 const App = () => {
     const gridRef = useRef();
@@ -29,14 +25,25 @@ const App = () => {
     useEffect(() => {
         initData();
     }, [])
-
+    const onDateChanged = async(val)=>{
+        console.log(val)
+    }
     const [columnDefs] = useState([
         { field: 'name', editable: true },
         { field: 'description', editable: true },
         { field: 'amount', editable: true },
-        { field: 'tags', editable: true, valueFormatter: (params)=>{return params?.tags?.join(",")} }
+        { field: 'tags', editable: true, valueFormatter: (params)=>{return params?.tags?.join(",")} },
+        {field: 'createdAt', cellEditor: 'agDateInput' , onDateChanged: onDateChanged,  filter: 'agDateColumnFilter', editable: true}
     ])
 
+    const headers = [
+        { label: "Name", key: "name" },
+        { label: "Description", key: "description" },
+        { label: "Amount", key: "amount" },
+        { label: "Tags", key: "tags" },
+        { label: "Created At", key: "createdAt" }
+      
+    ]
     const handleRowSave = async (e) => {
         console.log(e.data)
         if(e.data.id){
@@ -65,6 +72,13 @@ const App = () => {
                 gridRef.current.api.applyTransaction({ remove: selectedData });
         }
       }, []);
+      const getCSVData = ()=>{
+        // const d = [['name', 'description', 'amount','tags', 'createdAt' ]];
+        // d.push(rowData.map(i=>[i.name, i.description,i.amount, i.tags,i.createdAt ]))
+        
+        // console.log(d)
+        return rowData;
+      }
 
     return (
         <div className="ag-theme-alpine" style={{ height: 500, padding: 20 }}>
@@ -72,11 +86,12 @@ const App = () => {
                 <DateCalendar />
             </LocalizationProvider> */}
             
-            <Button onClick={()=> { setRowData([...rowData, {name: 'default'}])}}> Add row</Button>
+            <Button onClick={()=> { setRowData([...rowData, {name: 'new expense', amount: 0}])}}> Add row</Button>
             <Button onClick={onRemoveSelected}> Delete Selected</Button>
+            <CSVLink headers = {headers} data={getCSVData()}  >Download CSV</CSVLink>
             <AgGridReact
               ref={gridRef}
-            fullWidth={true}
+                fullWidth={true}
                 rowData={rowData}
                 editType={'fullRow'}
                 columnDefs={columnDefs}
