@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -12,6 +11,7 @@ import { Button } from '@mui/base';
 import { GridApi } from 'ag-grid-community';
 
 const App = () => {
+    const gridRef = useRef();
     const [rowData, setRowData] = useState([
         { name: "Toyota", description: "Celica", amount: 35000, tags: "" },
         { name: "Ford", description: "Mondeo", amount: 32000, tags: "" },
@@ -54,19 +54,34 @@ const App = () => {
         }
         initData();
     }
+    const onRemoveSelected = useCallback(async () => {
+        const selectedData = gridRef.current.api.getSelectedRows();
+        let id =selectedData[0].id;
+        if(id){
+           const resp =  await axios.delete(`http://localhost:5001/expenses/${id}`,{   headers: {
+            authorization: `Bearer ${window.localStorage.getItem('token')}`
+        }})
+           if(resp.status==200)
+                gridRef.current.api.applyTransaction({ remove: selectedData });
+        }
+      }, []);
 
     return (
         <div className="ag-theme-alpine" style={{ height: 500, padding: 20 }}>
             {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar />
             </LocalizationProvider> */}
+            
             <Button onClick={()=> { setRowData([...rowData, {name: 'default'}])}}> Add row</Button>
+            <Button onClick={onRemoveSelected}> Delete Selected</Button>
             <AgGridReact
+              ref={gridRef}
             fullWidth={true}
                 rowData={rowData}
                 editType={'fullRow'}
                 columnDefs={columnDefs}
                 onRowEditingStopped={handleRowSave}
+                rowSelection={'single'}
                 >
             </AgGridReact>
         </div>
