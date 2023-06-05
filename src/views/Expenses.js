@@ -6,6 +6,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import axios from "axios";
 import { Button } from '@mui/base';
 import NavBar from "./Nav";
+import Date from "./Date";
 const App = () => {
     const gridRef = useRef();
     const [rowData, setRowData] = useState([
@@ -25,15 +26,29 @@ const App = () => {
     useEffect(() => {
         initData();
     }, [])
-    const onDateChanged = async(val)=>{
-        console.log(val)
-    }
+   
     const [columnDefs] = useState([
         { field: 'name', editable: true },
         { field: 'description', editable: true },
         { field: 'amount', editable: true },
         { field: 'tags', editable: true, valueFormatter: (params)=>{return params?.tags?.join(",")} },
-        {field: 'createdAt', cellEditor: 'agDateInput' , onDateChanged: onDateChanged,  filter: 'agDateColumnFilter', editable: true}
+        // {field: 'createdAt', cellEditor: 'agDateInput' , 
+        // // filter: 'agDateColumnFilter',
+        // field: 'date',
+        // cellEditorParams: {
+        //     cellEditorPopup: true,
+        //     onDateChanged: (selectedDates) => {
+        //       // Handle date change logic here
+        //       console.log('Date changed:', selectedDates, this);
+        //     },
+        //     getValue: (params) =>{
+        //         console.log('Val', params)
+        //         return 'je;'
+        //     }
+        //   },
+        //  editable: true}
+         {field: 'createdAt',
+          editable: true}
     ])
 
     const headers = [
@@ -47,13 +62,13 @@ const App = () => {
     const handleRowSave = async (e) => {
         console.log(e.data)
         if(e.data.id){
-        await axios.patch(`http://localhost:5001/expenses/${e.data.id}`, { name: e.data.name, description: e.data.description, amount: e.data.amount, tags: e.data.tags }, {
+        await axios.patch(`http://localhost:5001/expenses/${e.data.id}`, { name: e.data.name, description: e.data.description, amount: e.data.amount, tags: e.data.tags ,createdAt: e.data.createdAt}, {
             headers: {
                 authorization: `Bearer ${window.localStorage.getItem('token')}`
             }
         })}
         else{
-            await axios.post(`http://localhost:5001/expenses/`, { name: e.data.name, description: e.data.description, amount: e.data.amount, tags: e.data.tags || [] }, {
+            await axios.post(`http://localhost:5001/expenses/`, { name: e.data.name, description: e.data.description, amount: e.data.amount, tags: e.data.tags || [], createdAt: e.data.createdAt }, {
                 headers: {
                     authorization: `Bearer ${window.localStorage.getItem('token')}`
                 }
