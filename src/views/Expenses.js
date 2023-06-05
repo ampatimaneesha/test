@@ -5,7 +5,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import axios from "axios";
 import { Button } from '@mui/base';
-
+import NavBar from "./Nav";
 const App = () => {
     const gridRef = useRef();
     const [rowData, setRowData] = useState([
@@ -81,6 +81,8 @@ const App = () => {
       }
 
     return (
+        <>
+        <NavBar></NavBar>
         <div className="ag-theme-alpine" style={{ height: 500, padding: 20 }}>
             {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar />
@@ -101,7 +103,7 @@ const App = () => {
             </AgGridReact>
         </div>
 
-
+        </>
     );
 };
 export default App;
